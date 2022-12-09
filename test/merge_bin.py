@@ -1,0 +1,70 @@
+#!/usr/bin/python3
+import os, sys, re
+import time
+
+def add_to_buffer(bin_list):
+    bin_buffer = []
+    for file in bin_list:
+        print(file)
+        with open(file, "rb") as f:
+            bytes_read = f.read()
+            for b in bytes_read:
+                #print( "%s 0x%0.2X" % ( type(b), b ) )
+                bin_buffer.append( b )
+    return bin_buffer
+
+def write_bin(file_name, write_buffer):
+    newFileBytes = write_buffer
+    with open(file_name, "wb") as f:
+    # write to file
+        for byte in newFileBytes:
+            f.write(byte.to_bytes(1, byteorder='big'))
+    print("Done!")
+
+def merge_bin(bin_list):
+    buffer = add_to_buffer(bin_list)
+    file_name = bin_list[0][:-4] + "_color"
+    write_bin(file_name, buffer)
+    cks(file_name)
+    
+def cks(file_name):
+    add = 0
+    with open(file_name, "rb+") as f:
+        ## Read first 4 bytes of data
+        while True:
+            byte = f.read(1)
+            if not byte:
+                break
+            add += int.from_bytes(byte, byteorder='big')
+        # for byte in f.read():
+        #     add += int.from_bytes(1, byteorder='big')
+        
+        #print(b'%08X' % (add & 0xFFFFFFFF))
+    timestamp = time.strftime("%Y%m%d_%H%M", time.localtime())
+    #timestamp = time.strftime("%Y%m%d", time.localtime())
+    new_name=f'{file_name}_{add:>08X}_{timestamp}.bin'
+    
+    # enclosing inside try-except
+    try:
+        os.rename(file_name,new_name)
+    except FileExistsError:
+        print("File already Exists")
+        print("Removing existing file")
+        # skip the below code
+        # if you don't' want to forcefully rename
+        os.remove(new_name)
+        # rename it
+        os.rename(file_name, new_name)
+        print('Done renaming a file')
+    
+if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print('merge_bin.py <src_bin> <color_bin_1> [color_bin_n]')
+        sys.exit()
+    buffer = []
+    src_bin=sys.argv[1]
+    print('src_bin = %s' % src_bin)
+    for i in range( 1, len( sys.argv ) ):
+        buffer.append(sys.argv[i])
+    print(buffer)
+    merge_bin(buffer)

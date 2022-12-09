@@ -1,0 +1,3 @@
+set file=BenQ_PD2706U_20221125_PVT
+python merge_bin.py	%file%.bin bank.bin sunny_OGC_bank59_n.bin sunny_OGC_bank60_n.bin Bank61_UC_n.bin
+pause
