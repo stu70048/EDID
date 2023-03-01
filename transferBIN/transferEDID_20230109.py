@@ -104,7 +104,7 @@ def xxx2bin(filename, src, dest, f_ext):
             txt2bin(filename, src, dest)
     print('--- {0} {1}2bin use {2} seconds ---'.format(filename, f_ext[-3:], time() - start_time))
     
-def bin2xxx(filename, src, dest, f_ext, ext_rowLen):#, ext_support, ext_rowLen):
+def bin2xxx(filename, src, dest, f_ext, ext_rowLen):
     start_time = time()
     match f_ext:
         case '.rtd':
