@@ -26,7 +26,6 @@ def bin2rtd(filename, src, dest, f_ext, rowLen):
                     str = ''
                 
 def bin2ddc(filename, src, dest, f_ext, rowLen):
-    f_ext = '.ddc'
     filesize = getsize(src + filename)
     with open(src + filename, 'rb') as f_bin:
         data = f_bin.read()
@@ -105,7 +104,7 @@ def xxx2bin(filename, src, dest, f_ext):
             txt2bin(filename, src, dest)
     print('--- {0} {1}2bin use {2} seconds ---'.format(filename, f_ext[-3:], time() - start_time))
     
-def bin2xxx(filename, src, dest, f_ext, ext_rowLen):#, ext_support, ext_rowLen):
+def bin2xxx(filename, src, dest, f_ext, ext_rowLen):
     start_time = time()
     match f_ext:
         case '.rtd':
@@ -155,9 +154,9 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--ddc', help='轉換ddc檔', action='store_true')
     parser.add_argument('-t', '--txt', help='轉換txt檔', action='store_true')
     parser.add_argument('-a', '--all', help='轉換所有ddc檔', action='store_true')
-    parser.add_argument("-rn", '--rtd_rowLen', help="設定rtd一行有幾個數字", nargs='?', type=int, default=16)
-    parser.add_argument("-dn", '--ddc_rowLen', help="設定ddc一行有幾個數字", nargs='?', type=int, default= 8)
-    parser.add_argument("-tn", '--txt_rowLen', help="設定txt一行有幾個數字", nargs='?', type=int, default=16)
+    parser.add_argument("-rn", '--rtd_rowLen', help='設定rtd一行有幾個數字', nargs='?', type=int, default=16)
+    parser.add_argument("-dn", '--ddc_rowLen', help='設定ddc一行有幾個數字', nargs='?', type=int, default= 8)
+    parser.add_argument("-tn", '--txt_rowLen', help='設定txt一行有幾個數字', nargs='?', type=int, default=16)
     args = parser.parse_args()
 
     # global const---------------------------------------------------------------------------
